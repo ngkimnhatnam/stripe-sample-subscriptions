@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="A demo of a card payment on Stripe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="StripeElements.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/subscription.js" defer></script>
+  </head>
+
+  <!-- Use the CSS tab above to style your Element's container. -->
+<body>
+  <h1>Hi there, <%= customerId %>. Please choose your package</h1>
+    <div>
+        <div>
+            <button id="allAccess"><h2><%= allAccess.name %> plan</h2></button>
+        </div>
+    </div>
+    <div>
+        <div>
+            <button id="category"><h2><%= oneKind.name %> plan</h2></button>
+        </div>
+    </div>
+    <div>
+        <div>
+            <button id="trainer"><h2><%= trainer.name %> plan</h2></button>
+        </div>
+    </div>
+    <div id="subResult">
+        <h1></h1>
+    </div>
+    <div>
+        <button id="toCheckout"><a href="/paySubscriptions">Go to Checkout</a></button>
+    </div>
+  </body>
+</html>
