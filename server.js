@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { resolve } = require("path");
+require('dotenv').config();
+
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -10,7 +12,7 @@ app.use(express.json());
 
 // Set your secret key. Remember to switch to your live secret key in production!
 // See your keys here: https://dashboard.stripe.com/account/apikeys
-const stripe = require('stripe')('sk_test_51H1SMCBlI39yeMOpdEfEruD3DAl0no8YIISwZovcWcfU9PTsTg5xLf1TJhPGGGrE6W8NZU0RumIqz0O5JilyWYVY00jdvVkRnj');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 var customer1;
 var product1,price1;
@@ -76,49 +78,26 @@ app.get('/create-subscription', async (req,res) => {
 })
 
 app.post('/create-subscription', async (req,res) => {
-  //Create the product/sub package
+
+  //Retrieve available product/sub package
   var product; 
   var price;
   switch(req.body.packageType) {
     case "All Access":
-      product = await stripe.products.create(
-        {name: req.body.packageType}
-        );
-      price = await stripe.prices.create(
-        {
-          unit_amount: 9900,
-          currency: 'eur',
-          recurring: {interval: 'month'},
-          product: product.id,     
-        });
+      product = await stripe.products.retrieve('prod_HhBx0EBOrQyoNj');
+      price = await stripe.prices.retrieve('price_1H7nZWBlI39yeMOpImY4WnOY');
         product1 = product;
         price1 = price;    
       break;
     case "Category":
-      product = await stripe.products.create(
-        {name: req.body.packageType}
-        );
-      price = await stripe.prices.create(
-        {
-          unit_amount: 6900,
-          currency: 'eur',
-          recurring: {interval: 'month'},
-          product: product.id,     
-        });
+      product = await stripe.products.retrieve('prod_HhBy7Xdh1bqTps');
+      price = await stripe.prices.retrieve('price_1H7naRBlI39yeMOpzUYbLrAp');
         product1 = product;
         price1 = price;    
       break;
     case "Trainer":
-      product = await stripe.products.create(
-        {name: req.body.packageType}
-        );
-      price = await stripe.prices.create(
-        {
-          unit_amount: 4900,
-          currency: 'eur',
-          recurring: {interval: 'month'},
-          product: product.id,     
-        });
+      product = await stripe.products.retrieve('prod_HhBxYBbMoMJ1tG');
+      price = await stripe.prices.retrieve('price_1H7nZwBlI39yeMOpgmAykNNE');
         product1 = product;
         price1 = price;    
       break;
